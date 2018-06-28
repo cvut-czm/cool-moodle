@@ -1,10 +1,22 @@
 # Moodle plugin - Common Object Oriented Library
-This is moodle local plugin that serves as library for others plugins. It 
+> Documentation is still in progress. 
 
-## Plugins
+This is moodle local plugin that serves as library for our others plugins. 
+
+## Plugins using this library
  * Private sandbox
+ * Seminar sandbox
+ * Gitlab view
+ * Gitlab classroom
+ * PDFsec
 
-## Parts
+## Parts of this library
 ### Entity framework
-### Moodle centralized API
+Provide object oriented access to database.
+
+### Forms
+Provide some basic/shared forms for confirmation, etc.
+
+### Page
+Provide object oriented take on pages.
 

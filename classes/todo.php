@@ -8,7 +8,11 @@
 
 namespace local_cool;
 
-
+/**
+ * _TODO exception
+ *
+ * Serve for developers.
+ */
 class todo extends \Exception
 {
 
