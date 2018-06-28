@@ -8,8 +8,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component    = 'local_cool';
-$plugin->version      = 2018060400;
-$plugin->requires     = 2017010100;
-$plugin->maturity     = MATURITY_ALPHA;
-$plugin->release      = 'v0.1-alpha';
+$plugin->version      = 2018062800;
+$plugin->requires     = 2018060100;
+$plugin->maturity     = MATURITY_BETA;
+$plugin->release      = 'v0.2-beta';
 $plugin->dependencies = [];
