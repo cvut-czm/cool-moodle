@@ -24,6 +24,8 @@
 
 namespace local_cool\entity;
 
+defined('MOODLE_INTERNAL') || die();
+
 class cohort_member extends database_entity {
 
 }

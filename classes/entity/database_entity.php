@@ -24,8 +24,10 @@
 
 namespace local_cool\entity;
 
+defined('MOODLE_INTERNAL') || die();
+
 class database_entity {
-    #region Static private context
+    // region Static private context.
     private static $_object_cache = [];
 
     /**
@@ -33,14 +35,14 @@ class database_entity {
      *
      * @param \stdClass|static $from
      * @param \stdClass|static $to
-     * @param \array $mapped_vars
+     * @param \array $mappedvars
      * @return \stdClass|static
      */
-    protected static function mapper($from, $to, $mapped_vars) {
+    protected static function mapper($from, $to, $mappedvars) {
         if (!isset($from) || $from == false) {
             return null;
         }
-        foreach ($mapped_vars as $value) {
+        foreach ($mappedvars as $value) {
             if (isset($from->{$value}) && ($value !== 'id' || $from->{$value} != -1)) {
                 $to->{$value} = $from->{$value};
             }
@@ -62,12 +64,12 @@ class database_entity {
         return self::mapper($this, new \stdClass(), $this->mapped_vars());
     }
 
-    #endregion
+    // endregion.
 
     /**
      * Name of database table for entity.
      */
-    const TableName = 'undefined';
+    const TABLENAME = 'undefined';
 
     /**
      * All tables should be indexed by id. As per moodle specification.
@@ -83,7 +85,7 @@ class database_entity {
      *
      * @return string[]|null
      */
-    protected function mapped_vars(): ?array {
+    protected function mapped_vars() : ?array {
         $reflect = new \ReflectionClass($this);
         $props = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED);
         $vars = [];
@@ -98,12 +100,12 @@ class database_entity {
      *
      * @return array
      */
-    protected function index_columns(): array {
+    protected function index_columns() : array {
         return ["id"];
     }
 
 
-    #region Public static functions
+    // region Public static functions.
 
     /**
      * Finds if atleast one record, that match criteria, exist.
@@ -116,9 +118,9 @@ class database_entity {
     public static function exist($arguments, string $col = 'id'): bool {
         global $DB;
         if (is_array($arguments)) {
-            return $DB->record_exists(static::TableName, $arguments);
+            return $DB->record_exists(static::TABLENAME, $arguments);
         } else {
-            return $DB->record_exists(static::TableName, array($col => $arguments));
+            return $DB->record_exists(static::TABLENAME, array($col => $arguments));
         }
     }
 
@@ -133,9 +135,9 @@ class database_entity {
     public static function count(array $arguments = null, string $col = 'id'): int {
         global $DB;
         if (is_array($arguments)) {
-            return $DB->count_records(static::TableName, $arguments);
+            return $DB->count_records(static::TABLENAME, $arguments);
         } else {
-            return $DB->count_records(static::TableName, array($col => $arguments));
+            return $DB->count_records(static::TABLENAME, array($col => $arguments));
         }
     }
 
@@ -149,9 +151,9 @@ class database_entity {
     public static function delete($arguments, string $col = 'id'): void {
         global $DB;
         if (is_array($arguments)) {
-            $DB->delete_records(static::TableName, $arguments);
+            $DB->delete_records(static::TABLENAME, $arguments);
         } else {
-            $DB->delete_records(static::TableName, array($col => $arguments));
+            $DB->delete_records(static::TABLENAME, array($col => $arguments));
         }
     }
 
@@ -160,19 +162,19 @@ class database_entity {
      *
      * @param array|string|int $arguments Single field or Dictionary<string,string>
      * @param string $col Column for single field in $arguments.
-     * @param string $cache_name Cache_name caller
+     * @param string $cachename Cache_name caller
      * @param static[]|static|null $data
      * @return static|null
      * @throws \dml_exception
      */
-    public static function get($arguments, string $col = 'id', string $cache_name = null, $data = null) {
+    public static function get($arguments, string $col = 'id', string $cachename = null, $data = null) {
         global $DB;
         $reflection = new \ReflectionClass(static::class);
         $entity = $reflection->newInstance();
         if (is_array($arguments)) {
-            $record = $DB->get_record(static::TableName, $arguments);
+            $record = $DB->get_record(static::TABLENAME, $arguments);
         } else {
-            $record = $DB->get_record(static::TableName, array($col => $arguments));
+            $record = $DB->get_record(static::TABLENAME, array($col => $arguments));
         }
         $entity = self::mapper($record, $entity, $entity->mapped_vars());
         if ($entity === null) {
@@ -191,7 +193,7 @@ class database_entity {
      */
     public static function get_field($arguments, string $field): string {
         global $DB;
-        return $DB->get_field(static::TableName, $field, $arguments);
+        return $DB->get_field(static::TABLENAME, $field, $arguments);
     }
 
     /**
@@ -207,7 +209,7 @@ class database_entity {
         global $DB;
         $reflection = new \ReflectionClass(static::class);
         $entities = array();
-        $records = $DB->get_records(static::TableName, $arguments);
+        $records = $DB->get_records(static::TABLENAME, $arguments);
         foreach ($records as $record) {
             $entity = $reflection->newInstance();
             $entity = self::mapper($record, $entity, $entity->mapped_vars());
@@ -219,14 +221,14 @@ class database_entity {
         return $entities;
     }
 
-    #endregion
+    // endregion.
 
-    #region Public functions
+    // region Public functions.
     public function remove_from_db(): bool {
         global $DB;
         if ($this->id >= 0) {
             try {
-                $DB->delete_records(static::TableName, array('id' => $this->id));
+                $DB->delete_records(static::TABLENAME, array('id' => $this->id));
                 return true;
             } catch (\dml_exception $exception) {
                 return false;
@@ -248,9 +250,9 @@ class database_entity {
         global $DB;
         $object = $this->to_std_class();
         if (isset($object->id)) {
-            $DB->update_record(static::TableName, $object);
+            $DB->update_record(static::TABLENAME, $object);
         } else {
-            $this->id = $DB->insert_record(static::TableName, $object);
+            $this->id = $DB->insert_record(static::TABLENAME, $object);
         }
     }
 
@@ -258,6 +260,6 @@ class database_entity {
         return $this->id;
     }
 
-    #endregion
+    // endregion.
 
 }

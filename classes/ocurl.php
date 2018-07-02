@@ -26,7 +26,6 @@ namespace local_cool;
 
 defined('MOODLE_INTERNAL') || die();
 
-
 class ocurl {
     const METHOD_POST = 'POST';
     const METHOD_GET = 'GET';
@@ -48,7 +47,7 @@ class ocurl {
      *
      * @return ocurl
      */
-    public static function create(): ocurl {
+    public static function create() : ocurl {
         return new ocurl();
     }
 

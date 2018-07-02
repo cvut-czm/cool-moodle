@@ -24,6 +24,8 @@
 
 namespace local_cool\page;
 
+defined('MOODLE_INTERNAL') || die();
+
 abstract class abstract_page {
 
     private $permex = null;

@@ -24,6 +24,8 @@
 
 namespace local_cool\form;
 
+defined('MOODLE_INTERNAL') || die();
+
 global $CFG;
 require_once("$CFG->libdir/formslib.php");
 

@@ -24,9 +24,11 @@
 
 namespace local_cool\entity;
 
+defined('MOODLE_INTERNAL') || die();
+
 
 class config_plugin extends database_entity {
-    const TableName = 'config_plugins';
+    const TABLENAME = 'config_plugins';
 
     protected $plugin;
     protected $name;

@@ -24,6 +24,8 @@
 
 namespace local_cool\entity;
 
+defined('MOODLE_INTERNAL') || die();
+
 class cohort extends database_entity {
 
     public function is_member(user $user): bool {

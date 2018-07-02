@@ -24,11 +24,13 @@
 
 namespace local_cool\entity;
 
+defined('MOODLE_INTERNAL') || die();
+
 class course extends database_entity {
     /**
      * Name of database table for entity.
      */
-    const TableName = 'course';
+    const TABLENAME = 'course';
 
     protected $category;
     protected $sortorder;
@@ -65,8 +67,8 @@ class course extends database_entity {
         return (int) $this->timecreated;
     }
 
-    public function set_shortname(string $new_name): course {
-        $this->shortname = $new_name;
+    public function set_shortname(string $newname): course {
+        $this->shortname = $newname;
         return $this;
     }
 
@@ -74,8 +76,8 @@ class course extends database_entity {
         return $this->shortname;
     }
 
-    public function set_fullname(string $new_name): course {
-        $this->fullname = $new_name;
+    public function set_fullname(string $newname): course {
+        $this->fullname = $newname;
         return $this;
     }
 
@@ -93,8 +95,8 @@ class course extends database_entity {
         return $this->visible == '1';
     }
 
-    public function set_category_id(int $category_id): course {
-        $this->category = $category_id;
+    public function set_category_id(int $category): course {
+        $this->category = $category;
         return $this;
     }
 

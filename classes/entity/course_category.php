@@ -24,8 +24,10 @@
 
 namespace local_cool\entity;
 
+defined('MOODLE_INTERNAL') || die();
+
 class course_category extends database_entity {
-    const TableName = 'course_categories';
+    const TABLENAME = 'course_categories';
 
     protected $name;
     protected $idnumber;

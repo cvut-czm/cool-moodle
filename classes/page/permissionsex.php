@@ -24,6 +24,8 @@
 
 namespace local_cool\page;
 
+defined('MOODLE_INTERNAL') || die();
+
 use local_cool\entity\cohort;
 use local_cool\entity\user;
 

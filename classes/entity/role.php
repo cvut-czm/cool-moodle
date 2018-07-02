@@ -24,8 +24,10 @@
 
 namespace local_cool\entity;
 
+defined('MOODLE_INTERNAL') || die();
+
 class role extends database_entity {
-    const TableName = 'role';
+    const TABLENAME = 'role';
 
     protected $name;
     protected $shortname;

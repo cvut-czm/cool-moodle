@@ -24,6 +24,8 @@
 
 namespace local_cool\page;
 
+defined('MOODLE_INTERNAL') || die();
+
 class access_denied_exception extends \Exception {
 
 }
