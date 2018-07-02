@@ -1,15 +1,30 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
- * Created by CTU CZM.
- * Author: Jiri Fryc
- * License: GNU GPLv3
+ * Course entity
+ *
+ * @package local_cool
+ * @category entity
+ * @copyright 2018 CVUT CZM, Jiri Fryc
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_cool\entity;
 
-
-class course extends database_entity
-{
+class course extends database_entity {
     /**
      * Name of database table for entity.
      */
@@ -46,65 +61,62 @@ class course extends database_entity
     protected $completionnotify;
     protected $cacherev;
 
-    public function get_time_created() : int
-    {
-        return (int)$this->timecreated;
+    public function get_time_created(): int {
+        return (int) $this->timecreated;
     }
-    public function set_shortname(string $new_name) : course
-    {
-        $this->shortname=$new_name;
+
+    public function set_shortname(string $new_name): course {
+        $this->shortname = $new_name;
         return $this;
     }
-    public function get_shortname() : string
-    {
+
+    public function get_shortname(): string {
         return $this->shortname;
     }
-    public function set_fullname(string $new_name) : course
-    {
-        $this->fullname=$new_name;
+
+    public function set_fullname(string $new_name): course {
+        $this->fullname = $new_name;
         return $this;
     }
-    public function get_fullname() : string
-    {
+
+    public function get_fullname(): string {
         return $this->fullname;
     }
-    public function set_visibility(bool $visibility) : course
-    {
-        $this->visible=$visibility?'1':'0';
-        $this->visibleold=$this->visible;
+
+    public function set_visibility(bool $visibility): course {
+        $this->visible = $visibility ? '1' : '0';
+        $this->visibleold = $this->visible;
         return $this;
-    }
-    public function get_visibility() : bool
-    {
-        return $this->visible=='1';
     }
 
+    public function get_visibility(): bool {
+        return $this->visible == '1';
+    }
 
-    public function set_category_id(int $category_id) : course
-    {
-        $this->category=$category_id;
+    public function set_category_id(int $category_id): course {
+        $this->category = $category_id;
         return $this;
     }
-    public function set_category(course_category $category) : course
-    {
-        $this->category=$category->get_id();
+
+    public function set_category(course_category $category): course {
+        $this->category = $category->get_id();
         return $this;
     }
-    public function get_category_id() : int
-    {
-        return (int)$this->category;
+
+    public function get_category_id(): int {
+        return (int) $this->category;
     }
-    public function get_category() : course_category
-    {
+
+    public function get_category(): course_category {
         return course_category::get($this->category);
     }
-    public function set_idnumber(string $idnumber) : course
-    {
-        $this->idnumber=$idnumber;
+
+    public function set_idnumber(string $idnumber): course {
+        $this->idnumber = $idnumber;
         return $this;
     }
-    public function get_idnumber() : string
-    {
+
+    public function get_idnumber(): string {
         return $this->idnumber;
     }
 

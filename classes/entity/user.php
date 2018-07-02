@@ -1,17 +1,31 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
- * Created by CTU CZM.
- * Author: Jiri Fryc
- * License: GNU GPLv3
+ * User entity
+ *
+ * @package local_cool
+ * @category entity
+ * @copyright 2018 CVUT CZM, Jiri Fryc
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_cool\entity;
 
 
-use Horde\Socket\Client\Exception;
-
-class user extends database_entity
-{
+class user extends database_entity {
     const TableName = 'user';
 
     protected $auth;
@@ -22,28 +36,26 @@ class user extends database_entity
     protected $lastname;
     protected $username;
 
-    public function get_username() : string
-    {
+    public function get_username(): string {
         return $this->username;
     }
-    public function get_fullname() : string
-    {
-        return $this->firstname.' '.$this->lastname;
+
+    public function get_fullname(): string {
+        return $this->firstname . ' ' . $this->lastname;
     }
 
-    private static $current=null;
-    private static $current_set=false;
-    public static function current_user() : user
-    {
+    private static $current = null;
+    private static $current_set = false;
+
+    public static function current_user(): user {
         global $USER;
-        if(!self::$current_set) {
+        if (!self::$current_set) {
             try {
                 self::$current = user::get(['id' => $USER->id]);
-            } catch (\dml_exception $e)
-            {
-                self::$current=null;
+            } catch (\dml_exception $e) {
+                self::$current = null;
             }
-            self::$current_set=true;
+            self::$current_set = true;
         }
         return self::$current;
     }
