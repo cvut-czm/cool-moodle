@@ -52,13 +52,13 @@ class user extends database_entity {
         global $USER;
         if (user::$currentset == false) {
             try {
-                self::$current = user::get(['id' => $USER->id]);
+                user::$current = user::get(['id' => $USER->id]);
             } catch (\dml_exception $e) {
-                self::$current = null;
+                user::$current = null;
             }
-            self::$currentset = true;
+            user::$currentset = true;
         }
-        return self::$current;
+        return user::$current;
     }
 
 }
