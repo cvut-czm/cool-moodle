@@ -26,7 +26,6 @@ namespace local_cool\entity;
 
 defined('MOODLE_INTERNAL') || die();
 
-
 class user extends database_entity {
     const TABLENAME = 'user';
 
@@ -51,7 +50,7 @@ class user extends database_entity {
 
     public static function current_user(): user {
         global $USER;
-        if (!self::$currentset) {
+        if (user::$currentset == false) {
             try {
                 self::$current = user::get(['id' => $USER->id]);
             } catch (\dml_exception $e) {

@@ -85,7 +85,7 @@ class database_entity {
      *
      * @return string[]|null
      */
-    protected function mapped_vars() : ?array {
+    protected function mapped_vars() : ? array {
         $reflect = new \ReflectionClass($this);
         $props = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED);
         $vars = [];
@@ -200,12 +200,12 @@ class database_entity {
      * Get all entities that match criteria.
      *
      * @param array $arguments
-     * @param string $cache_name
+     * @param string $cachename
      * @param mixed $data
      * @return static[]
      * @throws \dml_exception
      */
-    public static function get_all(array $arguments = [], string $cache_name = null, $data = null): array {
+    public static function get_all(array $arguments = [], string $cachename = null, $data = null): array {
         global $DB;
         $reflection = new \ReflectionClass(static::class);
         $entities = array();
