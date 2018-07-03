@@ -48,17 +48,17 @@ class user extends database_entity {
     private static $current = null;
     private static $currentset = false;
 
-    public static function current_user(): user {
+    public static function current_user(): self {
         global $USER;
-        if (user::$currentset == false) {
+        if (self::$currentset == false) {
             try {
-                user::$current = user::get(['id' => $USER->id]);
+                self::$current = self::get(['id' => $USER->id]);
             } catch (\dml_exception $e) {
-                user::$current = null;
+                self::$current = null;
             }
-            user::$currentset = true;
+            self::$currentset = true;
         }
-        return user::$current;
+        return self::$current;
     }
 
 }
