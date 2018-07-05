@@ -30,9 +30,9 @@ abstract class abstract_page {
 
     private $permex = null;
 
-    protected $title=null;
-    protected $heading=null;
-    protected $url=null;
+    protected $title = null;
+    protected $heading = null;
+    protected $url = null;
 
     protected final function permissionsex(): permissionsex {
         if ($this->permex == null) {
@@ -53,22 +53,24 @@ abstract class abstract_page {
 
     }
 
-    public final function render_page(string $page,$context=null) {
+    public final function render_page(string $page, $context = null) {
         global $PAGE;
         $PAGE->set_context($this->context());
-        if($this->title==null)
+        if ($this->title == null) {
             $PAGE->set_title('Moodle');
-        else
+        } else {
             $PAGE->set_title($this->title);
-        if($this->heading=null)
+        }
+        if ($this->heading = null) {
             $PAGE->set_heading($this->heading);
+        }
         $PAGE->set_url($this->url);
 
         /** @var \plugin_renderer_base */
         $renderer = $PAGE->get_renderer($this->component());
 
         print($renderer->header());
-        print($renderer->render_from_template($this->component().'/'.$page,$context));
+        print($renderer->render_from_template($this->component() . '/' . $page, $context));
         print($renderer->footer());
     }
 
@@ -76,7 +78,7 @@ abstract class abstract_page {
 
     protected abstract function context(): \context;
 
-    protected abstract function component() : string;
+    protected abstract function component(): string;
 
     protected abstract function run();
 

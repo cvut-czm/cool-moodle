@@ -87,7 +87,7 @@ class database_entity {
      *
      * @return string[]|null
      */
-    protected function mapped_vars(): ?array {
+    protected function mapped_vars() : ? array {
         $reflect = new \ReflectionClass($this);
         $props = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED);
         $vars = [];
