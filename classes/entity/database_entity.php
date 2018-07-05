@@ -102,7 +102,7 @@ class database_entity {
      *
      * @return array
      */
-    protected function index_columns(): array {
+    protected function index_columns() : array {
         return ["id"];
     }
 

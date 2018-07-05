@@ -66,7 +66,7 @@ abstract class abstract_page {
         }
         $PAGE->set_url($this->url);
 
-        /** @var \plugin_renderer_base */
+        /** @var \plugin_renderer_base $renderer */
         $renderer = $PAGE->get_renderer($this->component());
 
         print($renderer->header());
