@@ -49,7 +49,7 @@ class permissionsex {
      * @throws access_denied_exception
      */
     public function require_logged(): permissionsex {
-        if (isloggedin()) {
+        if (!isloggedin()) {
             throw new access_denied_exception();
         }
         return $this;

@@ -30,6 +30,10 @@ abstract class abstract_page {
 
     private $permex = null;
 
+    protected $title=null;
+    protected $heading=null;
+    protected $url=null;
+
     protected final function permissionsex(): permissionsex {
         if ($this->permex == null) {
             $this->permex = new permissionsex($this->context());
@@ -45,17 +49,34 @@ abstract class abstract_page {
         return optional_param($name, $default, $type);
     }
 
-    public final function render_form() {
+    public final function render_form(\moodleform $form) {
 
     }
 
-    public final function render_page() {
+    public final function render_page(string $page,$context=null) {
+        global $PAGE;
+        $PAGE->set_context($this->context());
+        if($this->title==null)
+            $PAGE->set_title('Moodle');
+        else
+            $PAGE->set_title($this->title);
+        if($this->heading=null)
+            $PAGE->set_heading($this->heading);
+        $PAGE->set_url($this->url);
 
+        /** @var \plugin_renderer_base */
+        $renderer = $PAGE->get_renderer($this->component());
+
+        print($renderer->header());
+        print($renderer->render_from_template($this->component().'/'.$page,$context));
+        print($renderer->footer());
     }
 
     protected abstract function global_permission(permissionsex $perm);
 
     protected abstract function context(): \context;
+
+    protected abstract function component() : string;
 
     protected abstract function run();
 

@@ -24,6 +24,8 @@
 
 namespace local_cool\entity;
 
+use local_cool\entity\exception\canceled_exception;
+
 defined('MOODLE_INTERNAL') || die();
 
 class database_entity {
@@ -85,7 +87,7 @@ class database_entity {
      *
      * @return string[]|null
      */
-    protected function mapped_vars() : ? array {
+    protected function mapped_vars(): ?array {
         $reflect = new \ReflectionClass($this);
         $props = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED);
         $vars = [];
@@ -100,7 +102,7 @@ class database_entity {
      *
      * @return array
      */
-    protected function index_columns() : array {
+    protected function index_columns(): array {
         return ["id"];
     }
 
@@ -148,12 +150,16 @@ class database_entity {
      * @param string $col
      * @throws \dml_exception
      */
-    public static function delete($arguments, string $col = 'id'): void {
+    public static final function delete($arguments, string $col = 'id'): void {
         global $DB;
+        $entities = [];
         if (is_array($arguments)) {
-            $DB->delete_records(static::TABLENAME, $arguments);
+            $entities = static::get_all($arguments);
         } else {
-            $DB->delete_records(static::TABLENAME, array($col => $arguments));
+            $entities = static::get_all([$col => $arguments]);
+        }
+        foreach ($entities as $entity) {
+            $entity->remove_from_db();
         }
     }
 
@@ -224,15 +230,27 @@ class database_entity {
     // endregion.
 
     // region Public functions.
-    public function remove_from_db(): bool {
+
+    /**
+     * Remove entity from database.
+     *
+     * @return bool If entity was removed successfully from database.
+     */
+    public final function remove_from_db(): bool {
         global $DB;
         if ($this->id >= 0) {
             try {
+                $this->before_delete();
+            } catch (canceled_exception $exception) {
+                return false;
+            }
+            try {
                 $DB->delete_records(static::TABLENAME, array('id' => $this->id));
-                return true;
             } catch (\dml_exception $exception) {
                 return false;
             }
+            $this->after_delete();
+            return true;
         } else {
             return false;
         }
@@ -245,14 +263,27 @@ class database_entity {
      * If this is already existing entity (in database context), then it will update it´s fields.
      *
      * @throws \dml_exception
+     * @return bool If entity was successfully created/updated.
      */
-    public function save(): void {
+    public final function save(): bool {
         global $DB;
         $object = $this->to_std_class();
         if (isset($object->id)) {
+            try {
+                $this->before_update();
+            } catch (canceled_exception $exception) {
+                return false;
+            }
             $DB->update_record(static::TABLENAME, $object);
+            $this->after_update();
         } else {
+            try {
+                $this->before_create();
+            } catch (canceled_exception $exception) {
+                return false;
+            }
             $this->id = $DB->insert_record(static::TABLENAME, $object);
+            $this->after_create();
         }
     }
 
@@ -261,5 +292,61 @@ class database_entity {
     }
 
     // endregion.
+    // region Triggers.
 
+    /**
+     * Trigger before delete operation.
+     *
+     * Operation can be canceled from this function by throwing canceled_exception.
+     *
+     * @throws canceled_exception Exception for canceling delete operation.
+     */
+    protected function before_delete() {
+    }
+
+    /**
+     * Trigger after delete operation.
+     *
+     * Operation cannot be canceled.
+     */
+    protected function after_delete() {
+    }
+
+    /**
+     * Trigger before update operation.
+     *
+     * Operation can be canceled from this function by throwing canceled_exception.
+     *
+     * @throws canceled_exception Exception for canceling delete operation.
+     */
+    protected function before_update() {
+    }
+
+    /**
+     * Trigger after update operation.
+     *
+     * Operation cannot be canceled.
+     */
+    protected function after_update() {
+    }
+
+    /**
+     * Trigger before create operation.
+     *
+     * Operation can be canceled from this function by throwing canceled_exception.
+     *
+     * @throws canceled_exception Exception for canceling delete operation.
+     */
+    protected function before_create() {
+    }
+
+    /**
+     * Trigger after create operation.
+     *
+     * Operation cannot be canceled.
+     */
+    protected function after_create() {
+    }
+
+    // endregion.
 }
