@@ -61,7 +61,7 @@ abstract class abstract_page {
         } else {
             $PAGE->set_title($this->title);
         }
-        if ($this->heading = null) {
+        if ($this->heading != null) {
             $PAGE->set_heading($this->heading);
         }
         $PAGE->set_url($this->url);
