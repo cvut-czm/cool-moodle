@@ -36,6 +36,7 @@ class user extends database_entity {
     protected $firstname;
     protected $lastname;
     protected $username;
+    protected $idnumber;
 
     public function get_username(): string {
         return $this->username;
@@ -61,4 +62,16 @@ class user extends database_entity {
         return self::$current;
     }
 
+    public function set_idnumber(string $idnumber)
+    {
+        $this->idnumber=$idnumber;
+    }
+    public function set_firstname(string $firstname)
+    {
+        $this->firstname=$firstname;
+    }
+    public function set_lastname(string $lastname)
+    {
+        $this->lastname=$lastname;
+    }
 }

@@ -285,6 +285,7 @@ class database_entity {
             $this->id = $DB->insert_record(static::TABLENAME, $object);
             $this->after_create();
         }
+        return true;
     }
 
     public function get_id(): int {
