@@ -43,8 +43,41 @@ class course_category extends database_entity {
     protected $path;
     protected $theme;
 
-    public function get_courses(): array {
+    public function get_courses() : array {
         return course::get_all(['category' => $this->id]);
+    }
+
+    /**
+     * Shortcut to creating root category
+     *
+     * We don´t need much more becouse we don´t order by moodle native categories.
+     *
+     * @return course_category
+     */
+    public static function create_root_category(string $name, string $idnumber, string $description='') : course_category {
+        $entity = new course_category();
+        $entity->name = $name;
+        $entity->idnumber = $idnumber;
+        $entity->description = $description;
+        $entity->descriptionformat = 0;
+        $entity->parent = 0;
+        $entity->coursecount = 0;
+        $entity->visible = 1;
+        $entity->visibleold = 1;
+        $entity->timemodified = time();
+        $entity->depth = 1;
+        $entity->theme = null;
+        $entity->path = '';
+        $entity->save();
+
+        /* Only way how to make path field.
+         * I refuse to use database magic methods
+         * for getting and reserving new primary key from sequence generator.
+         */
+        $entity->path = '/' . $entity->id;
+        $entity->save();
+
+        return $entity;
     }
 
 }
