@@ -26,20 +26,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_cool\timetable;
+namespace local_cool\crsbld;
 
 defined('MOODLE_INTERNAL') || die();
 
-class record {
-    public $data;
-    public $type;
-    public $start_time;
-    public $end_time;
+class crsbld_book {
 
-    public function __construct($start_time,$end_time,$data=[],$type='empty') {
-        $this->start_time=$start_time;
-        $this->end_time=$end_time;
-        $this->data=$data;
-        $this->type=$type;
-    }
 }

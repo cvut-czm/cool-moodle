@@ -58,11 +58,21 @@ class database_entity {
     }
 
     /**
+     * @param array $from
+     * @return static
+     */
+    public static function create_from(\stdClass $from) {
+        $to = new static();
+        $vars = $to->mapped_vars();
+        return static::mapper($from,$to,$vars);
+    }
+
+    /**
      * Convert dbentity to \stdClass.
      *
      * @return \stdClass
      */
-    private function to_std_class(): \stdClass {
+    private function to_std_class() : \stdClass {
         return self::mapper($this, new \stdClass(), $this->mapped_vars());
     }
 
@@ -87,7 +97,7 @@ class database_entity {
      *
      * @return string[]|null
      */
-    protected function mapped_vars() : ? array {
+    public function mapped_vars() : ?array {
         $reflect = new \ReflectionClass($this);
         $props = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED);
         $vars = [];
@@ -117,7 +127,7 @@ class database_entity {
      * @return bool
      * @throws \dml_exception
      */
-    public static function exist($arguments, string $col = 'id'): bool {
+    public static function exist($arguments, string $col = 'id') : bool {
         global $DB;
         if (is_array($arguments)) {
             return $DB->record_exists(static::TABLENAME, $arguments);
@@ -134,7 +144,7 @@ class database_entity {
      * @return integer
      * @throws \dml_exception
      */
-    public static function count(array $arguments = null, string $col = 'id'): int {
+    public static function count(array $arguments = null, string $col = 'id') : int {
         global $DB;
         if (is_array($arguments)) {
             return $DB->count_records(static::TABLENAME, $arguments);
@@ -150,7 +160,7 @@ class database_entity {
      * @param string $col
      * @throws \dml_exception
      */
-    public static final function delete($arguments, string $col = 'id'): void {
+    public static final function delete($arguments, string $col = 'id') : void {
         global $DB;
         $entities = [];
         if (is_array($arguments)) {
@@ -197,7 +207,7 @@ class database_entity {
      * @return string
      * @throws \dml_exception
      */
-    public static function get_field($arguments, string $field): string {
+    public static function get_field($arguments, string $field) : string {
         global $DB;
         return $DB->get_field(static::TABLENAME, $field, $arguments);
     }
@@ -211,7 +221,7 @@ class database_entity {
      * @return static[]
      * @throws \dml_exception
      */
-    public static function get_all(array $arguments = [], string $cachename = null, $data = null): array {
+    public static function get_all(array $arguments = [], string $cachename = null, $data = null) : array {
         global $DB;
         $reflection = new \ReflectionClass(static::class);
         $entities = array();
@@ -236,7 +246,7 @@ class database_entity {
      *
      * @return bool If entity was removed successfully from database.
      */
-    public final function remove_from_db(): bool {
+    public final function remove_from_db() : bool {
         global $DB;
         if ($this->id >= 0) {
             try {
@@ -265,7 +275,7 @@ class database_entity {
      * @throws \dml_exception
      * @return bool If entity was successfully created/updated.
      */
-    public final function save(): bool {
+    public final function save() : bool {
         global $DB;
         $object = $this->to_std_class();
         if (isset($object->id)) {
@@ -288,7 +298,7 @@ class database_entity {
         return true;
     }
 
-    public function get_id(): int {
+    public function get_id() : int {
         return $this->id;
     }
 

@@ -122,4 +122,8 @@ class course extends database_entity {
         return $this->idnumber;
     }
 
+    public function get_context() : \context_course {
+        return \context_course::instance($this->id);
+    }
+
 }

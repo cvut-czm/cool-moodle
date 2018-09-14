@@ -26,10 +26,23 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_cool\timetable;
+namespace local_cool;
 
 defined('MOODLE_INTERNAL') || die();
 
-class empty_record extends record {
+class multilang {
 
+    public static function for_plugin(string $plugin) : multilang
+    {
+        return new multilang($plugin);
+    }
+    private $plugin;
+    public function __construct(string $plugin) {
+        $this->plugin=$plugin;
+    }
+
+    public function by_key(string $key) : string {
+        $cs=new \lang_string($key,$this->plugin);
+        return '<span class="multilang" lang="en">'.$cs->out('en').'</span><span lang="cs" class="multilang">'.$cs->out('cs').'</span>';
+    }
 }

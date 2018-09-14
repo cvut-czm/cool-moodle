@@ -26,46 +26,25 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_cool\timetable;
+namespace local_cool\crsbld;
+
+use Markup\Edux\Title;
 
 defined('MOODLE_INTERNAL') || die();
 
-class timetable_options {
-    public $days = [0, 1, 2, 3, 4];
-    public $time_start = [7, 0];
-    public $time_end = [20, 0];
-    public $lowest_increment = 15;
-    /** @var record_type[] $record_types */
-    public $record_types = [];
+class edux_crs {
 
-    public function get_record_type(string $id) {
-        foreach ($this->record_types as $type)
-        {
-            if($type->id==$id)
-                return $type;
-        }
-        return null;
-    }
+    /** @var \stored_file $stored_file */
+    public $stored_file;
+    public $content = '';
+    public $title = 'Null';
 
-    public function elements(): int {
-        $st = $this->time_start;
-        $st = $st[0] * 60 + $st[1];
-        $en = $this->time_end;
-        $en = $en[0] * 60 + $en[1];
-        $inc = $this->lowest_increment;
-        return ($en - $st) / $inc;
-    }
+    public static $renderer;
 
-    public function set_days_and_order(array $order): timetable_options {
-        $this->days = $order;
+    public function render() : edux_crs {
+        Title::$last_title = null;
+        $this->content = self::$renderer->render($this->stored_file->get_content());
+        $this->title = Title::$last_title === null ? substr($this->stored_file->get_filename(), 0, -4) : Title::$last_title;
         return $this;
-    }
-
-    private function __construct() {
-        $this->record_types = record_type::get_defaults();
-    }
-
-    public static function create(): timetable_options {
-        return new timetable_options();
     }
 }

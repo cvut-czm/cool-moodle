@@ -30,6 +30,7 @@ class user extends database_entity {
     const TABLENAME = 'user';
 
     protected $auth;
+    protected $email;
     protected $confirmed;
     protected $policyagreed;
     protected $deleted;
@@ -37,6 +38,10 @@ class user extends database_entity {
     protected $lastname;
     protected $username;
     protected $idnumber;
+
+    public function get_email() : string {
+        return $this->email;
+    }
 
     public function get_username(): string {
         return $this->username;

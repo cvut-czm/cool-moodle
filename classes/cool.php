@@ -26,36 +26,17 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_cool\timetable;
+namespace local_cool;
+
 
 defined('MOODLE_INTERNAL') || die();
 
-class record_type {
+class cool {
 
-    public $id;
-    public $bgcolor;
-    public $fgcolor;
-
-    public function __construct(string $id, string $bgcolor, string $fgcolor = 'black') {
-        $this->id = $id;
-        $this->bgcolor = $bgcolor;
-        $this->fgcolor = $fgcolor;
-    }
-    public function render($size,$data)
+    public static function get_timetable()
     {
-        if($this->id=='empty')
-            return '<div class="flex-g-'.$size.'"></div>';
-        return '<div class="record flex-g-'.$size.' '.$this->id.'">'.$data[0].'</div>';
-    }
-
-    /**
-     * @return record_type[]
-     */
-    public static function get_defaults(): array {
-        return [
-                new record_type('lecture', '#87CEFA'),
-                new record_type('tutorial', '#7FFF00'),
-                new record_type('empty','#000000','#000000')
-        ];
+        require_once __DIR__.'/../lib/timetable/lib/timetable.php';
+        $options=new \timetable\options();
+        return [new \timetable\timetable($options),$options];
     }
 }
