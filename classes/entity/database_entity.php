@@ -298,8 +298,16 @@ class database_entity {
         return true;
     }
 
-    public function get_id() : int {
+    public function get_id() : ?int {
         return $this->id;
+    }
+    /**
+     * @deprecated Are you sure you want to set ID directly?
+     * @return static
+    */
+    public function set_id(int $id) : database_entity {
+        $this->id=$id;
+        return $this;
     }
 
     // endregion.
