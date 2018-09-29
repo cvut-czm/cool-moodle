@@ -34,7 +34,7 @@ abstract class abstract_page {
     protected $heading = null;
     protected $url = null;
 
-    protected final function permissionsex(): permissionsex {
+    protected final function permissionsex() : permissionsex {
         if ($this->permex == null) {
             $this->permex = new permissionsex($this->context());
         }
@@ -50,7 +50,53 @@ abstract class abstract_page {
     }
 
     public final function render_form(\moodleform $form) {
+        global $PAGE;
+        $PAGE->set_context($this->context());
+        if ($this->title == null) {
+            $PAGE->set_title('Moodle');
+        } else {
+            $PAGE->set_title($this->title);
+        }
+        if ($this->heading != null) {
+            $PAGE->set_heading($this->heading);
+        }
+        $PAGE->set_url($this->url);
 
+        /** @var \plugin_renderer_base $renderer */
+        $renderer = $PAGE->get_renderer($this->component());
+
+        print($renderer->header());
+        print($form->render());
+        print($renderer->footer());
+    }
+
+    public final function render_tiny(string $page, $vars = []) {
+        global $PAGE;
+        $PAGE->set_context($this->context());
+        if ($this->title == null) {
+            $PAGE->set_title('Moodle');
+        } else {
+            $PAGE->set_title($this->title);
+        }
+        if ($this->heading != null) {
+            $PAGE->set_heading($this->heading);
+        }
+        $PAGE->set_url($this->url);
+
+        /** @var \plugin_renderer_base $renderer */
+        $renderer = $PAGE->get_renderer($this->component());
+
+        $ctx = new \local_tinyhtml\context();
+        foreach ($vars as $k => $v) {
+            $ctx->assign_var($k, $v);
+        }
+        \local_tinyhtml\functions\fnc_global::register($ctx);
+        \local_tinyhtml\filters\filter_default::register($ctx);
+        $tiny = \local_tinyhtml\interpreter::get_renderer_for($page, $ctx);
+
+        print($renderer->header());
+        print($tiny->render());
+        print($renderer->footer());
     }
 
     public final function render_page(string $page, $context = null) {
@@ -76,9 +122,9 @@ abstract class abstract_page {
 
     protected abstract function global_permission(permissionsex $perm);
 
-    protected abstract function context(): \context;
+    protected abstract function context() : \context;
 
-    protected abstract function component(): string;
+    protected abstract function component() : string;
 
     protected abstract function run();
 
