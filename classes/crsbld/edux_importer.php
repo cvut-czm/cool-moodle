@@ -81,7 +81,7 @@ class edux_importer {
 
     public function import(int $type=0) : edux_importer {
         $context2 = new \local_kos\kos_context();
-        $data = \local_kos\kosapi\entities\course::fetchCourse($this->code, $context2, 'B181');
+        $data = \local_kos\api\kosapi\entities\course::fetchCourse($this->code, $context2, 'B181');
 
         if(file_exists($this->folder.$this->code.'_pages.tgz')) {
             $pages_file = $this->folder . $this->code . '_pages.tgz';
