@@ -29,6 +29,7 @@
 namespace local_cool\crsbld;
 
 use context_course;
+use local_kos\entity\semester;
 use Markup\Edux\LinkProcessor;
 
 defined('MOODLE_INTERNAL') || die();
@@ -81,7 +82,7 @@ class edux_importer {
 
     public function import(int $type=0) : edux_importer {
         $context2 = new \local_kos\kos_context();
-        $data = \local_kos\api\kosapi\entities\course::fetchCourse($this->code, $context2, 'B181');
+        $data = \local_kos\api\kosapi\entities\course::fetchCourse($this->code, $context2, 'B182');
 
         if(file_exists($this->folder.$this->code.'_pages.tgz')) {
             $pages_file = $this->folder . $this->code . '_pages.tgz';
@@ -99,10 +100,10 @@ class edux_importer {
         $test = \local_kos\entity\course::get($this->code, 'code');
         if (count($test->get_instances()) > 0) {
             echo 'Already loaded ' . $this->code . PHP_EOL;
-            $crs = $test->get_instance(\local_kos\entity\semester::get_current());
+            $crs = $test->get_instance(semester::get(['code'=>'B182']));
         } else {
             $crs = \local_kos\course_builder::create()
-                    ->set_semester(\local_kos\entity\semester::get_current())
+                    ->set_semester(semester::get(['code'=>'B182']))
                     ->add_kos_courses([$this->code])
                     ->set_main_course($this->code)
                     ->create_empty()
