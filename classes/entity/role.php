@@ -59,7 +59,7 @@ class role extends database_entity {
         return self::get(['shortname' => 'student']);
     }
 
-    public static function prohibit(): role {
+    public static function prohibit(): ?role {
         return self::get(['shortname' => 'prohibit']);
     }
 

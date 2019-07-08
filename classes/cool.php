@@ -35,8 +35,12 @@ class cool {
 
     public static function get_timetable()
     {
-        require_once __DIR__.'/../lib/timetable/lib/timetable.php';
+        require_once __DIR__.'/../lib/timetable/timetable.php';
         $options=new \timetable\options();
         return [new \timetable\timetable($options),$options];
+    }
+    public static function get_timetable_css()
+    {
+        return file_get_contents(__DIR__.'/../lib/timetable/timetable.css');
     }
 }
