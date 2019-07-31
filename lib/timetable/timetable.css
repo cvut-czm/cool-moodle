@@ -1,0 +1,238 @@
+.caption {
+  height: 2em;
+  text-align: center;
+  margin-top: 2.5em;
+  padding: 0.5em;
+  padding-bottom: 0; }
+  .caption .lecture::before {
+    content: '';
+    display: inline-block;
+    width: 2em;
+    vertical-align: -25%;
+    height: 1.4em;
+    background-color: #142748;
+    margin-right: 0.25em; }
+  .caption .lecture {
+    color: #142748;
+    margin-right: 1em; }
+  .caption .tutorial::before {
+    content: '';
+    display: inline-block;
+    width: 2em;
+    vertical-align: -25%;
+    height: 1.4em;
+    background-color: #4375cb;
+    margin-right: 0.25em; }
+  .caption .tutorial {
+    color: #4375cb; }
+
+.timetable .day-header {
+  text-align: center; }
+  .timetable .day-header * {
+    display: block; }
+  .timetable .day-header span {
+    font-size: 1.2em;
+    font-weight: bold; }
+  .timetable .day-header small {
+    font-size: 0.8em; }
+
+.record-ctu.lecture .record-header {
+  background: #5eba7d; }
+.record-ctu.lecture input:active + .record-header, .record-ctu.lecture input:hover + .record-header, .record-ctu.lecture .record-header:hover {
+  background: #82c99a; }
+.record-ctu.lecture .record-content > div {
+  border-bottom: 5px #5eba7d solid; }
+
+.record-ctu.test .record-header {
+  background: #5eba7d; }
+.record-ctu.test input:active + .record-header, .record-ctu.test input:hover + .record-header, .record-ctu.test .record-header:hover {
+  background: #82c99a; }
+.record-ctu.test .record-content > div {
+  border-bottom: 5px #5eba7d solid; }
+
+.record-ctu.test2 .record-header {
+  background: #f48024; }
+.record-ctu.test2 input:active + .record-header, .record-ctu.test2 input:hover + .record-header, .record-ctu.test2 .record-header:hover {
+  background: #f69c55; }
+.record-ctu.test2 .record-content > div {
+  border-bottom: 5px #f48024 solid; }
+
+/* backup 4375cb 6b92d6 4375cb*/
+.record-ctu.tutorial .record-header {
+  background: #f48024; }
+.record-ctu.tutorial input:active + .record-header, .record-ctu.tutorial input:hover + .record-header, .record-ctu.tutorial .record-header:hover {
+  background: #f69c55; }
+.record-ctu.tutorial .record-content > div {
+  border-bottom: 5px #f48024 solid; }
+
+.record-ctu .record-content > div {
+  background: white;
+  border-left: #aaa 1px solid;
+  border-right: #aaa 1px solid; }
+.record-ctu .ctu {
+  display: block; }
+.record-ctu .record-header .ctu-code {
+  font-size: 1.2em; }
+.record-ctu .record-header .ctu-time, .record-ctu .record-header .ctu-room {
+  font-size: 0.6em; }
+.record-ctu .record-header .ctu {
+  display: block; }
+.record-ctu .record-content .ctu-code {
+  text-decoration: none;
+  color: #142748; }
+.record-ctu .record-content .ctu-type {
+  color: #6b92d6;
+  font-size: 0.75em; }
+.record-ctu .record-content .ctu-teacher {
+  text-decoration: none;
+  color: #142748;
+  font-size: 0.75em; }
+
+.timetable {
+  position: relative;
+  display: flex;
+  font-family: 'Roboto Mono', monospace !important;
+  flex-direction: column;
+  width: 100%; }
+  .timetable > .day:nth-child(2n) {
+    background-color: #e3ebf7; }
+  .timetable > .day {
+    display: flex;
+    flex-grow: 1; }
+    .timetable > .day > .day-header {
+      margin-top: auto;
+      width: 6em;
+      padding-left: 0.5em;
+      margin-bottom: auto; }
+    .timetable > .day > .day-content {
+      display: grid;
+      grid-template-rows: repeat(12, 1fr);
+      flex-grow: 1; }
+
+.timetable.headless .day-header {
+  visibility: hidden; }
+.timetable.headless .grid {
+  left: 0; }
+
+.timetable {
+  margin-bottom: 2em; }
+  .timetable .grid::before {
+    position: absolute;
+    display: block;
+    content: attr(data-content);
+    left: -6em;
+    color: #bbb;
+    top: calc(100% + 0.4em); }
+  .timetable .grid {
+    display: flex;
+    position: absolute;
+    left: 6em;
+    right: 0;
+    top: 0;
+    bottom: 0; }
+    .timetable .grid > div {
+      flex-grow: 1;
+      position: relative;
+      border-left: 1px solid #bbb;
+      margin: 0.5em 0; }
+.timetable .grid > div::after {
+  position: absolute;
+  display: block;
+  content: attr(data-content);
+  left: -50%;
+  color: #bbb;
+  width: 100%;
+  text-align: center;
+  top: calc(100% + 1em); }
+
+
+.timetable .record {
+  margin: 7px 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: #333; }
+  .timetable .record input:active + .record-header, .timetable .record input:hover + .record-header, .timetable .record .record-header:hover {
+    min-height: 1.2em; }
+  .timetable .record input[type='checkbox'] {
+    display: none; }
+  .timetable .record > .record-header {
+    overflow: hidden;
+    box-sizing: border-box;
+    margin: 0;
+    display: block;
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 0;
+    min-height: 0;
+    z-index: 1;
+    max-width: calc(100% - 5px);
+    max-height: calc(100% - 5px);
+    vertical-align: bottom;
+    text-align: right;
+    text-transform: uppercase;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    transition: max-width .25s linear 1s, max-height .25s linear 1s, background-color .25s ease-in-out, min-height .25s linear, z-index 0s linear 1.25s;
+    padding-top: 0; }
+    .timetable .record > .record-header > div {
+      width: 30em;
+      height: 30em; }
+  .timetable .record .record-tg:checked + .record-header {
+    max-width: 15em;
+    max-height: 4em;
+    right: auto;
+    top: auto;
+    z-index: 10;
+    transition: max-width .25s linear, max-height .25s linear; }
+  .timetable .record .record-content {
+    max-height: 0px;
+    overflow: hidden;
+    position: absolute;
+    top: 100%;
+    z-index: 2;
+    left: 0;
+    transition: max-height 1s linear; }
+  .timetable .record .record-content > div {
+    padding: 4px;
+    width: 15em; }
+  .timetable .record .record-tg:checked + .record-header + .record-content {
+    max-height: 250px;
+    transition: max-height 1s linear .25s; }
+
+@media (max-width: 575px) {
+  .timetable {
+    height: auto; }
+    .timetable .grid {
+      visibility: hidden; }
+    .timetable .day {
+      display: flex;
+      height: auto !important;
+      flex-direction: column;
+      padding-bottom: 1em; }
+      .timetable .day .day-header {
+        left: 0;
+        right: 0;
+        padding-top: 0.5em;
+        text-align: center;
+        width: auto; }
+      .timetable .day .day-content {
+        display: flex;
+        flex-direction: column; }
+        .timetable .day .day-content .record {
+          display: block; }
+          .timetable .day .day-content .record .record-header {
+            position: relative;
+            max-width: initial;
+            margin: 0 0.5em; }
+            .timetable .day .day-content .record .record-header > div {
+              height: 0; }
+          .timetable .day .day-content .record .record-content {
+            position: initial;
+            max-width: initial;
+            padding: 0 0.5em; }
+            .timetable .day .day-content .record .record-content > div {
+              width: auto; } }
+
+/*# sourceMappingURL=timetable.css.map */
